@@ -12,6 +12,8 @@ import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import java.sql.*;
+
 /*First we complete java frame and then we move on to main method and action performed method to complete connection using
  *socket programming
  * Frame Coding is done in Construcor so that when we run the class ,frame pops up as it is called at the first line in main as shown*/
@@ -187,6 +189,19 @@ public class Server extends JFrame implements ActionListener {
             dout.writeUTF(text);
             t1.setText("");
 
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db1", "root", "root");
+            Statement st = con.createStatement();
+            int result = st.executeUpdate("Insert into chathistory values(concat('ServerMsg: ','"+text+"'))");
+            /*ResultSet rs = st.executeQuery("select * from chathistory");
+
+            System.out.println("Records are :");
+            while (rs.next()) {
+                System.out.println((rs.getString(1)));
+            }
+            */
+
+
 
         }catch (Exception e)
         {
@@ -216,6 +231,8 @@ public class Server extends JFrame implements ActionListener {
                     //dont close socket else it will stop sending data
                     //s.close();
                 }
+
+
 
 
         }catch (Exception e)

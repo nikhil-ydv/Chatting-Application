@@ -11,6 +11,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 /*First we complete java frame and then we move on to main method and action performed method to complete connection using
  *socket programming
@@ -186,6 +189,11 @@ public class Client extends JFrame implements ActionListener {
             a1.setText(a1.getText() + "\n\t\t\t" + text);
             dout.writeUTF(text);
             t1.setText("");
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db1", "root", "root");
+            Statement st = con.createStatement();
+            int result = st.executeUpdate("Insert into chathistory values(concat('ClientMsg: ','"+text+"'))");
 
 
         }catch (Exception e)
