@@ -15,63 +15,32 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-/*First we complete java frame and then we move on to main method and action performed method to complete connection using
- *socket programming
- * Frame Coding is done in Construcor so that when we run the class ,frame pops up as it is called at the first line in main as shown*/
+
 public class Client extends JFrame implements ActionListener {
 
-    //works as a container, just like <div> in HTML
+
     JPanel p1;
     JTextField t1;
     JButton b1;
-    //set Text area static because in main it throws error while trying to print msgInput string
     static JTextArea a1;
-    /*Socket Programming is part of java networking. ServerSocket and Socket, both classes are present in java.net package*/
-    //static ServerSocket skt;
     static Socket s;
-    /*Data input and output stream object to track what msg is coming and going, this will also be static
-    and It is present in java.io package*/
     static DataInputStream din;
     static DataOutputStream dout;
 
 
     Client(){
-        //----------------------------------------------------
-        //java.awt.Container; --Panel is a container, setLayout() is a function in Container Class
         p1= new JPanel();
         p1.setLayout(null);
         p1.setBackground(new Color(0,106,255));
-        //for setting component layout(like position, width, height) setBounds(int x, int y, int width, int height);
         p1.setBounds(0,0,450,70);
-        // If we use only add(), it will add component on the frame only because form is calling the add function
         add(p1);
 
-        //----------------------------------------------------
-            /* ClassLoader Class in java.lang having static method getSystemResource which takes
-            address as string input and thus we can fetch images from that location */
-        //ImageIcon class extends Object implements javax.swing.Icon, java.io.Serializable, javax.accessibility.Accessible
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("com/company/icons/1.png"));
-        // Abstract class Image of awt package contains getScaledInstance(width, height, hint);
         Image img1 = i1.getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(img1); //convert to icon again to pass it in label
-        // java.awt.Component;
-            /*A component is an object having a graphical representation that can be displayed on the screen and that
-            can interact with the user. Examples of components are the labels, buttons, scrollbars etc of a typical GUI.
-             */
         JLabel l1 = new JLabel(i2);
         l1.setBounds(5,17,30,30);
-            /* add(Component frame) will add the component on the frame but to add it over the panel, we use panel
-            object (It means that now instead of form, panel will call add function)
-            */
         p1.add(l1);
-            /*Add MouseEvent to label1 to close frame when clicked..We have different mouse events methods like
-              mouseClicked, mouseMoved etc. in MouseAdapter class present in java.awt.event.MouseAdapter
-            *public abstract class MouseAdapter extends Object implements some interfaces
-              An abstract adapter class for receiving mouse events.The methods in this class are empty,
-              for e.g. mouseClicked(MouseEvent e) which we can override to handle clicks on a component like label, etc.
-              This class exists as convenience for creating listener objects.
-            *Implement ActionListener interface (present in java.awt.event.*;) to handle mouse actions as below
-            */
         l1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -208,10 +177,6 @@ public class Client extends JFrame implements ActionListener {
         String msgInput ="";
         try{
             s = new Socket("127.0.0.1",6003);
-            //socket class object that will accept data
-
-                //Data is coming and going with the help of socket that's why we use s.getInputStream and OutputStream();
-                // din will have data that is coming
                 din = new DataInputStream(s.getInputStream());
                 // dout will have data that we are sending
                 dout = new DataOutputStream(s.getOutputStream());

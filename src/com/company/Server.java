@@ -14,35 +14,25 @@ import java.net.Socket;
 
 import java.sql.*;
 
-/*First we complete java frame and then we move on to main method and action performed method to complete connection using
- *socket programming
- * Frame Coding is done in Construcor so that when we run the class ,frame pops up as it is called at the first line in main as shown*/
 public class Server extends JFrame implements ActionListener {
 
-    //works as a container, just like <div> in HTML
     JPanel p1;
     JTextField t1;
     JButton b1;
-    //set Text area static because in main it throws error while trying to print msgInput string
+
     static JTextArea a1;
-    /*Socket Programming is part of java networking. ServerSocket and Socket, both classes are present in java.net package*/
     static ServerSocket skt;
     static Socket s;
-    /*Data input and output stream object to track what msg is coming and going, this will also be static
-    and It is present in java.io package*/
     static DataInputStream din;
     static DataOutputStream dout;
 
 
     Server(){
         //----------------------------------------------------
-        //java.awt.Container; --Panel is a container, setLayout() is a function in Container Class
         p1= new JPanel();
         p1.setLayout(null);
         p1.setBackground(new Color(0,106,255));
-            //for setting component layout(like position, width, height) setBounds(int x, int y, int width, int height);
         p1.setBounds(0,0,450,70);
-            // If we use only add(), it will add component on the frame only because form is calling the add function
         add(p1);
 
         //----------------------------------------------------
@@ -53,24 +43,9 @@ public class Server extends JFrame implements ActionListener {
             // Abstract class Image of awt package contains getScaledInstance(width, height, hint);
         Image img1 = i1.getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT);
         ImageIcon i2 = new ImageIcon(img1); //convert to icon again to pass it in label
-            // java.awt.Component;
-            /*A component is an object having a graphical representation that can be displayed on the screen and that
-            can interact with the user. Examples of components are the labels, buttons, scrollbars etc of a typical GUI.
-             */
         JLabel l1 = new JLabel(i2);
         l1.setBounds(5,17,30,30);
-            /* add(Component frame) will add the component on the frame but to add it over the panel, we use panel
-            object (It means that now instead of form, panel will call add function)
-            */
         p1.add(l1);
-            /*Add MouseEvent to label1 to close frame when clicked..We have different mouse events methods like
-              mouseClicked, mouseMoved etc. in MouseAdapter class present in java.awt.event.MouseAdapter
-            *public abstract class MouseAdapter extends Object implements some interfaces
-              An abstract adapter class for receiving mouse events.The methods in this class are empty,
-              for e.g. mouseClicked(MouseEvent e) which we can override to handle clicks on a component like label, etc.
-              This class exists as convenience for creating listener objects.
-            *Implement ActionListener interface (present in java.awt.event.*;) to handle mouse actions as below
-            */
         l1.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
@@ -152,7 +127,6 @@ public class Server extends JFrame implements ActionListener {
         b1.setForeground(Color.WHITE);
         b1.setFont(new Font("San_Serif",Font.PLAIN,16));
 
-        /*this is used to refer to action performed method and do what's asked in that method*/
         b1.addActionListener(this);
         add(b1);
 
@@ -162,16 +136,9 @@ public class Server extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.white);
         setLayout(null);
         setSize(450, 600);
-            //setLocation(x coordinate, y coordinate); to set the place where form will show up.
         setLocation(400, 150);
             //by default setVisible for frames is false, so it can't be seen without setting setVisible true
-        setUndecorated(true); //to remove top bar of minimize, maximize, close
-             /* If we setVisible(true) before any component function like setUndecorated()
-               then the changes of the function won't show
-             */
-
-
-
+        setUndecorated(true);
         setVisible(true);
 
 
@@ -218,10 +185,7 @@ public class Server extends JFrame implements ActionListener {
             //socket class object that will accept data
 
                 s = skt.accept();
-                //Data is coming and going with the help of socket that's why we use s.getInputStream and OutputStream();
-                // din will have data that is coming
                 din = new DataInputStream(s.getInputStream());
-                // dout will have data that we are sending
                 dout = new DataOutputStream(s.getOutputStream());
                 //readUTF() function to read inputStream of DataInputStream
                 while(true) {
